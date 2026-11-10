@@ -82,13 +82,52 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc', paddingTop: 50 },
-  tabContainer: { flexDirection: 'row', paddingHorizontal: 16, marginBottom: 12 },
-  tab: { flex: 1, paddingVertical: 10, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#cbd5e1' },
-  activeTab: { borderBottomColor: '#2563eb' },
-  tabText: { fontSize: 14, fontWeight: '600', color: '#64748b' },
-  activeTabText: { color: '#2563eb' },
-  listContainer: { flex: 1, paddingHorizontal: 8 },
-  emptyContainer: { padding: 32, alignItems: 'center' },
-  emptyText: { color: '#94a3b8', fontSize: 14 },
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+    paddingTop: 50,
+  },
+
+  tabContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginBottom: 12,
+  },
+
+  tab: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: '#cbd5e1',
+  },
+
+  activeTab: {
+    borderBottomColor: '#2563eb',
+  },
+
+  tabText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#64748b',
+  },
+
+  activeTabText: {
+    color: '#2563eb',
+  },
+
+  listContainer: {
+    flex: 1,
+    paddingHorizontal: 8,
+  },
+
+  emptyContainer: {
+    padding: 32,
+    alignItems: 'center',
+  },
+
+  emptyText: {
+    color: '#94a3b8',
+    fontSize: 14,
+  },
 });

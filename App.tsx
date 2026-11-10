@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { HomeScreen } from './src/presentation/screens/HomeScreen';
+import { WordDetailsScreen } from './src/presentation/screens/WordDetailsScreen';
 
 const queryClient = new QueryClient();
 
@@ -12,10 +13,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <View style={styles.container}>
         {selectedWord ? (
-          <View style={styles.center}>
-            <Text style={styles.title}>Palavra Selecionada: {selectedWord}</Text>
-            <Text style={styles.back} onPress={() => setSelectedWord(null)}>← Voltar para lista</Text>
-          </View>
+          <WordDetailsScreen word={selectedWord} onBack={() => setSelectedWord(null)} />
         ) : (
           <HomeScreen onSelectWord={(word) => setSelectedWord(word)} />
         )}
@@ -26,7 +24,4 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8fafc' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 20, fontWeight: 'bold' },
-  back: { marginTop: 16, color: '#2563eb', fontSize: 16, fontWeight: '600' },
 });
