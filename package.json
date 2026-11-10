@@ -2,6 +2,7 @@
   "name": "mobile-challenge",
   "version": "1.0.0",
   "main": "index.ts",
+  "private": true,
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
     "@shopify/flash-list": "2.3.2",
@@ -39,5 +40,17 @@
       "@react-native-async-storage/async-storage/jest/async-storage-mock.js"
     ]
   },
-  "private": true
+  "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "jsEngine": "hermes"
+          },
+          "ios": {
+            "jsEngine": "hermes"
+          }
+        }
+      ]
+    ]
 }
