@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import wordDictionaryData from '../../data/mock/words_dictionary.json';
 import { WordItem } from '../components/WordItem';
 import { useWordStore } from '../stores/useWordStore';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../services/firebase';
 
 const PAGE_SIZE = 20;
 
@@ -13,7 +15,6 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
   
   const { history, favorites, addToHistory } = useWordStore();
 
-  // Transforma o objeto JSON da Coodesh em um array de palavras ordenado/otimizado
   const allWords = useMemo(() => Object.keys(wordDictionaryData), []);
 
   const handleLoadMore = () => {
@@ -38,8 +39,23 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error: any) {
+      Alert.alert('Erro', 'Não foi possível sair da conta: ' + error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
+
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Coodesh Dictionary</Text>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutText}>Sair</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.tabContainer}>
         <TouchableOpacity 
           style={[styles.tab, activeTab === 'words' && styles.activeTab]} 
@@ -66,7 +82,6 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
           data={getData()}
           numColumns={3}
           renderItem={({ item }) => <WordItem word={item} onPress={handleWordClick} />}
-        //   estimatedItemSize={50}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           keyExtractor={(item, index) => `${item}-${index}`}
@@ -87,6 +102,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fafc',
     paddingTop: 50,
   },
+
+  header: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    paddingHorizontal: 20, 
+    paddingTop: 20, 
+    paddingBottom: 20, 
+    backgroundColor: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0'
+  },
+  headerTitle: { fontSize: 20, fontWeight: 'bold', color: '#0f172a' },
+  logoutButton: { backgroundColor: '#fee2e2', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 6 },
+  logoutText: { color: '#ef4444', fontWeight: '600', fontSize: 14 },
 
   tabContainer: {
     flexDirection: 'row',
