@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { mmkvStorageAdapter } from '../../data/storage/mmkvStorage';
+import { asyncStorageAdapter } from '../../data/storage/asyncStorageAdapter';
 
 interface WordStoreState {
   favorites: string[];
@@ -42,7 +42,7 @@ export const useWordStore = create<WordStoreState>()(
     }),
     {
       name: '@dictionary_app_data',
-      storage: createJSONStorage(() => mmkvStorageAdapter),
+      storage: createJSONStorage(() => asyncStorageAdapter),
     }
   )
 );
