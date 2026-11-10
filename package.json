@@ -14,14 +14,25 @@
     "zustand": "^5.1.0"
   },
   "devDependencies": {
+    "@react-native/jest-preset": "^0.88.1",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^14.1.0",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.3.0",
+    "jest": "^30.5.2",
+    "jest-expo": "^58.0.14",
     "typescript": "~6.0.3"
   },
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "setupFiles": ["@react-native-async-storage/async-storage/jest/async-storage-mock.js"]
   },
   "private": true
 }
