@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { DictionaryRepository, WordResponse } from '../../data/repositories/DictionaryRepository';
+import { DictionaryRepository } from '../../data/repositories/DictionaryRepository';
+import { WordResponse } from '../../@types/WordResponse';
 
 const dictionaryRepository = new DictionaryRepository();
 

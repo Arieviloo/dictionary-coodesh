@@ -22,6 +22,19 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "jsEngine": "hermes"
+          },
+          "ios": {
+            "jsEngine": "hermes"
+          }
+        }
+      ]
+    ]
   }
 }

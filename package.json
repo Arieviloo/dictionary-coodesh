@@ -4,13 +4,17 @@
   "main": "index.ts",
   "private": true,
   "dependencies": {
+    "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@shopify/flash-list": "2.3.2",
     "@tanstack/react-query": "^5.107.1",
     "axios": "^1.21.1",
     "expo": "~58.0.23",
+    "expo-build-properties": "~58.0.12",
+    "expo-speech": "~58.0.3",
     "expo-status-bar": "~58.0.4",
     "firebase": "^13.2.0",
+    "react": "19.3.0",
     "react-native": "0.88.1",
     "zustand": "^5.1.0"
   },
@@ -39,19 +43,8 @@
     "setupFiles": [
       "@react-native-async-storage/async-storage/jest/async-storage-mock.js"
     ],
-    "setupFilesAfterEnv": ["./jest.setup.js"]
-  },
-  "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "jsEngine": "hermes"
-          },
-          "ios": {
-            "jsEngine": "hermes"
-          }
-        }
-      ]
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
     ]
+  }
 }

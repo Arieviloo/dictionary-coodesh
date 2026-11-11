@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useWordQuery } from '../../presentation/hooks/useWordQuery';
 import { useWordStore } from '../../presentation/stores/useWordStore';
+import { AudioPlayerButton } from '../components/AudioPlayerButton';
 
 interface WordDetailsScreenProps {
   word: string;
@@ -42,7 +43,7 @@ export const WordDetailsScreen = ({ word, onBack }: WordDetailsScreenProps) => {
     );
   }
 
-  const wordInfo = data[0];
+  const wordInfo = data?.[0];
 
   return (
     <View style={styles.container}>
@@ -58,6 +59,8 @@ export const WordDetailsScreen = ({ word, onBack }: WordDetailsScreenProps) => {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Text style={styles.wordTitle}>{wordInfo.word}</Text>
         {wordInfo.phonetic && <Text style={styles.phonetic}>Fonética: {wordInfo.phonetic}</Text>}
+        
+        <AudioPlayerButton word={wordInfo?.word}/>
 
         {wordInfo.meanings.map((meaning, index) => (
           <View key={index} style={styles.meaningCard}>

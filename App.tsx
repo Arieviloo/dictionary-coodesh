@@ -42,15 +42,27 @@ export default function App() {
     );
   }
 
+  if (!user) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <View style={styles.container}>
+          <AuthScreen onSuccess={() => {}} />
+        </View>
+      </QueryClientProvider>
+    );
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <View style={styles.container}>
-        {!user ? (
-          <AuthScreen onSuccess={() => {}} />
-        ) : selectedWord ? (
-          <WordDetailsScreen word={selectedWord} onBack={() => setSelectedWord(null)} />
-        ) : (
+        <View style={[styles.screenAbsolute, selectedWord ? styles.hidden : styles.visible]} tabIndex={selectedWord ? -1 : 0}>
           <HomeScreen onSelectWord={(word) => setSelectedWord(word)} />
+        </View>
+
+        {selectedWord && (
+          <View style={styles.screenAbsolute}>
+            <WordDetailsScreen word={selectedWord} onBack={() => setSelectedWord(null)} />
+          </View>
         )}
       </View>
     </QueryClientProvider>
@@ -69,5 +81,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f8fafc'
+  },
+  screenAbsolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#f8fafc',
+  },
+  hidden: {
+    display: 'none',
+  },
+  visible: {
+    display: 'flex',
   }
 });
