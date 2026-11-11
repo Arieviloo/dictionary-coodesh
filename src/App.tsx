@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, BackHandler } from 'react-native';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from './src/services/firebase';
-import { AuthScreen } from './src/presentation/screens/AuthScreen';
-import { HomeScreen } from './src/presentation/screens/HomeScreen';
-import { WordDetailsScreen } from './src/presentation/screens/WordDetailsScreen';
-import { useWordStore } from './src/presentation/stores/useWordStore';
+import { auth } from './services/firebase';
+import { AuthScreen } from './modules/screens/AuthScreen';
+import { HomeScreen } from './modules/screens/HomeScreen';
+import { WordDetailsScreen } from './modules/screens/WordDetailsScreen';
+import { useWordStore } from './modules/stores/useWordStore';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +33,19 @@ export default function App() {
     });
     return unsubscribe;
   }, [initializing]);
+
+  useEffect(() => {
+    const backAction = () => {
+      if (selectedWord) {
+        setSelectedWord(null);
+        return true; // Impede que o app feche e volta para a Home
+      }
+      return false; // Deixa o comportamento padrão (sair do app) se estiver na Home
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove();
+  }, [selectedWord]);
 
   if (initializing) {
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { useWordQuery } from '../../presentation/hooks/useWordQuery';
-import { useWordStore } from '../../presentation/stores/useWordStore';
+import { useWordQuery } from '../../modules/hooks/useWordQuery';
+import { useWordStore } from '../../modules/stores/useWordStore';
 import { AudioPlayerButton } from '../components/AudioPlayerButton';
 
 interface WordDetailsScreenProps {

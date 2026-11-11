@@ -34,6 +34,15 @@
             "jsEngine": "hermes"
           }
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#2563eb"
+        }
       ]
     ]
   }

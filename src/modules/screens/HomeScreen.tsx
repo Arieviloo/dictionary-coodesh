@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, FlashListRef } from '@shopify/flash-list';
 import wordDictionaryData from '../../data/mock/words_dictionary.json';
 import { WordItem } from '../components/WordItem';
 import { useWordStore } from '../stores/useWordStore';
@@ -14,6 +14,9 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   
+  // CORREÇÃO: Tipando corretamente com FlashListRef do pacote
+  const flashListRef = useRef<FlashListRef<string>>(null);
+
   const { history, favorites, addToHistory } = useWordStore();
 
   const allWords = useMemo(() => Object.keys(wordDictionaryData), []);
@@ -34,7 +37,7 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
     
     if (trimmedQuery.length > 0) {
       return currentBaseList.filter((word) =>
-        word.toLowerCase().includes(trimmedQuery)
+        word.toLowerCase().startsWith(trimmedQuery)
       );
     }
 
@@ -44,6 +47,16 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
 
     return currentBaseList;
   }, [currentBaseList, searchQuery, activeTab, visibleCount]);
+
+  const handleSearchChange = (text: string) => {
+    setSearchQuery(text);
+    flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
+  };
 
   const handleLoadMore = () => {
     if (activeTab === 'words' && !searchQuery.trim() && visibleCount < allWords.length) {
@@ -79,12 +92,12 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
           placeholder="Pesquisar palavra..."
           placeholderTextColor="#94a3b8"
           value={searchQuery}
-          onChangeText={setSearchQuery}
+          onChangeText={handleSearchChange}
           autoCapitalize="none"
           autoCorrect={false}
         />
         {searchQuery.length > 0 && (
-          <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.clearButton}>
+          <TouchableOpacity onPress={handleClearSearch} style={styles.clearButton}>
             <Text style={styles.clearText}>✕</Text>
           </TouchableOpacity>
         )}
@@ -93,19 +106,19 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
       <View style={styles.tabContainer}>
         <TouchableOpacity 
           style={[styles.tab, activeTab === 'words' && styles.activeTab]} 
-          onPress={() => setActiveTab('words')}
+          onPress={() => { setActiveTab('words'); flashListRef.current?.scrollToOffset({ offset: 0, animated: false }); }}
         >
           <Text style={[styles.tabText, activeTab === 'words' && styles.activeTabText]}>Palavras</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={[styles.tab, activeTab === 'history' && styles.activeTab]} 
-          onPress={() => setActiveTab('history')}
+          onPress={() => { setActiveTab('history'); flashListRef.current?.scrollToOffset({ offset: 0, animated: false }); }}
         >
           <Text style={[styles.tabText, activeTab === 'history' && styles.activeTabText]}>Histórico</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={[styles.tab, activeTab === 'favorites' && styles.activeTab]} 
-          onPress={() => setActiveTab('favorites')}
+          onPress={() => { setActiveTab('favorites'); flashListRef.current?.scrollToOffset({ offset: 0, animated: false }); }}
         >
           <Text style={[styles.tabText, activeTab === 'favorites' && styles.activeTabText]}>Favoritos</Text>
         </TouchableOpacity>
@@ -113,6 +126,7 @@ export const HomeScreen = ({ onSelectWord }: { onSelectWord: (word: string) => v
 
       <View style={styles.listContainer}>
         <FlashList
+          ref={flashListRef}
           data={displayedData}
           numColumns={3}
           renderItem={({ item }) => <WordItem word={item} onPress={handleWordClick} />}
