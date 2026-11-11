@@ -1,4 +1,4 @@
-# 📱 Dicionário Coodesh — Desafio Técnico
+# 📱 Dictionary Coodesh — Desafio Técnico
 
 Este é um desafio técnico para avaliar habilidades como Mobile Developer, consumindo a Free Dictionary API para listagem, consulta e gerenciamento de vocabulário em inglês.
 
